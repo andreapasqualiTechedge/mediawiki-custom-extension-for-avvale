@@ -1,0 +1,25 @@
+{
+    "name": "customExtension",
+    "version": "1.0.0",
+    "author": "Andrea Pasquali",
+    "description": "This is a custom Mediawiki extension for Avvale corp, its aim is to integrate Wikiwells and Docware Drive applications.",
+    "type": "parserhook",
+    "Hooks": {
+        "BeforePageDisplay": "customExtension::onBeforePageDisplay"
+    },
+    "AutoloadClasses": {
+        "customExtension": "customExtension.php",
+        "ApiCustomFormSubmit": "customExtension.php"
+    },
+    "ResourceModules": {
+        "ext.customExtension": {
+            "scripts": [
+                "modules/ext.customExtension.js"
+            ],
+            "dependencies": [
+                "mediawiki.util",
+                "jquery"
+            ]
+        }
+    }
+}
