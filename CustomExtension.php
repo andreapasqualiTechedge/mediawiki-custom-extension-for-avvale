@@ -15,10 +15,35 @@ class CustomExtension {
         return true;
     }
 
+    // Logic to determine if the page has been approved (checking FlaggedRevs status somehow?)
     private static function isPageApproved( $title ) {
-        // Logic to determine if the page has been approved (checking FlaggedRevs status somehow?)
-        return true;
+
+        $pageId = $title->getArticleID();
+        if ( !$pageId ) {
+            return false;
+        }
+    
+        // Access the database
+        $dbr = wfGetDB( DB_REPLICA );
+    
+        $res = $dbr->select(
+            'flaggedrevs',
+            ['fr_page_id', 'fr_rev_id', 'fr_stable', 'fr_quality'],
+            ['fr_page_id' => $pageId],
+            __METHOD__,
+            ['LIMIT' => 1]
+        );
+    
+        if ( $row = $dbr->fetchObject( $res ) ) {
+            // Check if the page has been reviewed and has a stable version
+            if ( $row->fr_stable ) {
+                return true;
+            }
+        }
+    
+        return false;
     }
+    
 }
 
 

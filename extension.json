@@ -21,5 +21,6 @@
                 "jquery"
             ]
         }
-    }
+    },
+    "manifest_version": 2
 }
