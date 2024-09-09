@@ -38,6 +38,7 @@ class CustomExtension {
             // Check if the revision has flags indicating it is approved (stable version)
             if ( strpos( $row->fr_flags, 'stable' ) !== false ) {
                 return true;
+                // Prova
             }
         }
     
