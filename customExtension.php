@@ -24,18 +24,8 @@ class CustomExtension {
         }
     
         // Access the database
-        /* $dbr = wfGetDB( DB_REPLICA );
-        $res = $dbr->select(
-            'flaggedrevs',
-            ['fr_page_id', 'fr_rev_id', 'fr_flags', 'fr_tags'],
-            ['fr_page_id' => $pageId],
-            __METHOD__,
-            ['ORDER BY' => 'fr_rev_id DESC', 'LIMIT' => 1]
-        );
-        $row = $dbr->fetchObject( $res ); */
+        $dbr = wfGetDB( DB_REPLICA );
 
-        // Access the database
-        $dbr = $this->loadBalancer->getConnection( DB_REPLICA );
 		$row = $dbr->newSelectQueryBuilder()
 			->select(['fr_page_id', 'fr_rev_id', 'fr_flags', 'fr_tags'])
 			->from('flaggedrevs')
@@ -43,6 +33,7 @@ class CustomExtension {
             ->orderBy('fr_rev_id DESC')
 			->caller( __METHOD__ )
             ->fetchRow();
+            
         if ( $row ) {
             // Check if the revision has flags indicating it is approved (stable version)
             if ( strpos( $row->fr_flags, 'stable' ) !== false ) {
