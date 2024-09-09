@@ -25,18 +25,18 @@ class CustomExtension {
     
         // Access the database
         $dbr = wfGetDB( DB_REPLICA );
-    
+
         $res = $dbr->select(
             'flaggedrevs',
-            ['fr_page_id', 'fr_rev_id', 'fr_stable', 'fr_quality'],
+            ['fr_page_id', 'fr_rev_id', 'fr_flags', 'fr_tags'],
             ['fr_page_id' => $pageId],
             __METHOD__,
-            ['LIMIT' => 1]
+            ['ORDER BY' => 'fr_rev_id DESC', 'LIMIT' => 1]
         );
-    
+        
         if ( $row = $dbr->fetchObject( $res ) ) {
-            // Check if the page has been reviewed and has a stable version
-            if ( $row->fr_stable ) {
+            // Check if the revision has flags indicating it is approved (stable version)
+            if ( strpos( $row->fr_flags, 'stable' ) !== false ) {
                 return true;
             }
         }
