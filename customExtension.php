@@ -15,7 +15,7 @@ class CustomExtension {
         return true;
     }
 
-    // Logic to determine if the page has been approved (checking FlaggedRevs status somehow?)
+    // Logic to determine if the page has been approved
     private static function isPageApproved( $title ) {
 
         $pageId = $title->getArticleID();
@@ -33,7 +33,7 @@ class CustomExtension {
             ->orderBy('fr_rev_id DESC')
 			->caller( __METHOD__ )
             ->fetchRow();
-            
+
         if ( $row ) {
             // Check if the revision has flags indicating it is approved (stable version)
             if ( strpos( $row->fr_flags, 'stable' ) !== false ) {
